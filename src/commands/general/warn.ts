@@ -1,6 +1,5 @@
 import { SlashCommandBuilder, PermissionsBitField, EmbedBuilder, TextChannel } from 'discord.js';
-import { command } from '../../utils'
-import { db } from '../../client'
+import { command, db } from '../../utils'
 import keys from '../../keys'
 
 const meta = new SlashCommandBuilder()
@@ -64,7 +63,7 @@ export default command(meta, async ({ interaction, client }) => {
         const infractionId = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000)
 
         // Insert the infraction into the database
-        db.run(`
+        db?.run(`
             INSERT INTO
                 'infractions'
                 (

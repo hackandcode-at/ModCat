@@ -1,7 +1,6 @@
 import { SlashCommandBuilder, PermissionsBitField, EmbedBuilder, TextChannel } from 'discord.js';
-import { command } from '../../utils'
+import { command, db } from '../../utils'
 import keys from '../../keys'
-import { db } from '../../client';
 
 const meta = new SlashCommandBuilder()
     .setName('kick')

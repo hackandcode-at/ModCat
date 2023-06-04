@@ -1,6 +1,4 @@
 import { Client, GatewayIntentBits } from 'discord.js'
-import sqlite3 from 'sqlite3'
-import path from 'path'
 import { registerEvents } from '../utils'
 import events from '../events'
 import keys from '../keys'
@@ -15,19 +13,6 @@ const client = new Client({
     ],
 })
 
-// Database path
-const dbPath = path.resolve(__dirname, 'modcat.db.sqlite');
-
-// Create a new database instance
-export const db = new sqlite3.Database(dbPath, (err) => {
-    if (err) {
-        console.error('[Database Error]', err)
-        process.exit(1)
-    } else {
-        console.log('[Database]', 'Connected to database.')
-    }
-})
-
 // Register the events
 registerEvents(client, events)
 
@@ -37,13 +22,3 @@ client.login(keys.clientToken)
         console.error('[Login Error]', err)
         process.exit(1)
     })
-
-process.on('exit', () => {
-    db.close((err) => {
-        if (err) {
-            console.error('[Database Error]', err)
-        } else {
-            console.log('[Database]', 'Disconnected from database.')
-        }
-    })
-})

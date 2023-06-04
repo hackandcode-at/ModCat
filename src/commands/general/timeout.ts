@@ -1,7 +1,6 @@
 import { SlashCommandBuilder, PermissionsBitField, EmbedBuilder, TextChannel } from 'discord.js';
-import { command } from '../../utils'
+import { command, db } from '../../utils'
 import keys from '../../keys'
-import { db } from '../../client';
 
 const meta = new SlashCommandBuilder()
     .setName('timeout')
@@ -29,7 +28,7 @@ const meta = new SlashCommandBuilder()
 
 export default command(meta, async ({ interaction, client }) => {
     const member = interaction.options.getUser('member')
-    const reason = interaction.options.getString('reason')
+    let reason = interaction.options.getString('reason')
     const duration = interaction.options.getNumber('duration')
 
     // Check if the user has the permission to timeout members
@@ -66,6 +65,11 @@ export default command(meta, async ({ interaction, client }) => {
                 ephemeral: true,
                 content: 'Dieser Benutzer kann nicht getimeoutet werden.',
             })
+        }
+
+        // If reason is set add duration to reason
+        if (reason) {
+            reason = `${reason} (${duration} Minuten)`
         }
 
 
