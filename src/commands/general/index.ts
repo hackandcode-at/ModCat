@@ -7,6 +7,8 @@ import mute from "./mute"
 import unmute from "./unmute"
 import timeout from "./timeout"
 import infractions from "./infractions"
+import removeInfraction from "./removeInfraction"
+import removeAllInfractions from "./removeAllInfractions"
 import clear from "./clear"
 
 export default category('General', [
@@ -18,5 +20,7 @@ export default category('General', [
     unmute,
     timeout,
     infractions,
+    removeInfraction,
+    removeAllInfractions,
     clear,
 ])
