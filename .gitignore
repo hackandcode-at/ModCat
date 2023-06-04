@@ -10,4 +10,4 @@
 .env
 
 # sqlite
-/src/client/modcat.db.sqlite
+modcat.db.sqlite
