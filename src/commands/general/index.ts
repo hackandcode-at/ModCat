@@ -10,6 +10,7 @@ import infractions from "./infractions"
 import removeInfraction from "./removeInfraction"
 import removeAllInfractions from "./removeAllInfractions"
 import clear from "./clear"
+import report from "./report"
 
 export default category('General', [
     info,
@@ -23,4 +24,5 @@ export default category('General', [
     removeInfraction,
     removeAllInfractions,
     clear,
+    report,
 ])
