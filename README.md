@@ -47,6 +47,8 @@
   - /infractions `Member` *- Displays all moderation actions of a user*
   - /infraction-remove `ID` *- Delete a specific entry*
   - /infraction-remove-all `Member` *- Delete all entries*
+  - /summary `count` *- Summarizes a selected message history.*
+  - /report `Member` `Reason` *- A user can be reported.*
 </section>
 
 <br>
@@ -58,4 +60,6 @@
   - There are several commands available to warn, mute, timeout, kick or ban users.
   - Outputs all moderation activities in a specified channel, and...
   - Saves all moderation actions against a user, so that they can be retrieved again and again to check the user at a later time (if further moderation actions are needed).
+  - ChatGPT summarizes a message history.
+  - ChatGPT checks if a rule break, when reported by another user, might actually exist.
 </section>
