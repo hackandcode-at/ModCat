@@ -3,5 +3,6 @@ export interface Keys {
     clientToken: string
     testGuild: string
     auditChannel: string
+    openAiApiKey: string
     version: string
 }
