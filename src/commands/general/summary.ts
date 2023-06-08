@@ -40,7 +40,7 @@ export default command(meta, async ({ interaction, client }) => {
         const gptMessages = [
             {
                 role: ChatCompletionRequestMessageRoleEnum.System,
-                content: 'Fasse die Unterhaltung zusammen.'
+                content: 'Fasse die Unterhaltung zusammen. Du bist dabei der Benutzer ModCat, bitte ignoriere alle Nachrichten von dir selbst, und fasse nur die Nachrichten der anderen Benutzer zusammen.'
             },
             {
                 role: ChatCompletionRequestMessageRoleEnum.User,
