@@ -1,6 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { command } from '../../utils'
-import keys from '../../keys'
 
 const meta = new SlashCommandBuilder()
     .setName('info')
@@ -13,6 +12,9 @@ export default command(meta, async ({ interaction, client }) => {
 
     // Get User by ID
     const ImDinnerCat = await client.users.fetch('471076195233038345') ?? 'ImDinnerCat#0001'
+
+    // Get version from package.json
+    const { version } = require('../../../package.json')
     
     // Embed for the info command with bot profile picture as thumbnail
     const embed = new EmbedBuilder()
@@ -30,7 +32,7 @@ export default command(meta, async ({ interaction, client }) => {
             },
             {
                 name: 'Version',
-                value: keys.version,
+                value: version,
                 inline: true,
             },
         ])
