@@ -1,5 +1,5 @@
 import { EmbedBuilder, Message, TextChannel, PermissionsBitField } from 'discord.js'
-import { event, db } from '../utils'
+import { event, db, infractionCheck } from '../utils'
 import keys from '../keys';
 
 // Create a map to store user cooldowns and spam count
@@ -104,9 +104,6 @@ const detectedSpam = async (message: Message) => {
         }
     })
 
-    // Timeout the user for 90 seconds
-    await message.member?.timeout( 90 * 1000, reason )
-
     // Create a new embed for replying to the channel and auditing
     const audit = new EmbedBuilder()
     .setTitle('Benutzer verwarnt')
@@ -142,29 +139,45 @@ const detectedSpam = async (message: Message) => {
         .setColor(0xfa8231)
         .setTimestamp()
 
-    // try to send a dm to the user
-    try {
-        // Send a message to the user
-        await message.author.send({
-            embeds: [embed],
-        })
-    } catch (error) {
-        console.error(error);
-    }
+    
+    // Infraction check
+    await infractionCheck(message.author, bot, message.guild || null, reason || 'Kein Grund angegeben.')
+    .then(async (res) => {
+        if (res) {
+            return await message.channel.send({
+                embeds: [res],
+            })
+        } else {
 
-
-    // Send the embed to the Audit Log Channel
-    // const auditLogChannel = client.channels.cache.get(keys.auditChannel) as TextChannel
-    const auditLogChannel = message.guild?.channels.cache.get(keys.auditChannel) as TextChannel
-    if (auditLogChannel) {
-        await auditLogChannel.send({
-            embeds: [audit],
-        })
-    }
-
-
-    // Send the embed to the channel
-    return await message.channel.send({
-        embeds: [audit],
+            // try to send a dm to the user
+            try {
+                // Send a message to the user
+                await message.author.send({
+                    embeds: [embed],
+                })
+            } catch (error) {
+                console.error(error);
+            }
+        
+            // Timeout the user for 90 seconds
+            // await message.member?.timeout( 90 * 1000, reason )
+        
+            // Send the embed to the Audit Log Channel
+            const auditLogChannel = message.guild?.channels.cache.get(keys.auditChannel) as TextChannel
+            if (auditLogChannel) {
+                await auditLogChannel.send({
+                    embeds: [audit],
+                })
+            }
+        
+        
+            // Send the embed to the channel
+            return await message.channel.send({
+                embeds: [audit],
+            })
+        }
+    })
+    .catch((err) => {
+        console.error(err);
     })
 }

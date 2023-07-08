@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, PermissionsBitField, EmbedBuilder, TextChannel } from 'discord.js';
-import { command, db } from '../../utils'
+import { command, db, infractionCheck } from '../../utils'
 import keys from '../../keys'
 
 const meta = new SlashCommandBuilder()
@@ -119,35 +119,53 @@ export default command(meta, async ({ interaction, client }) => {
             .setColor(0xfa8231)
             .setTimestamp()
 
+            
+        // Infraction check
+        await infractionCheck(member, interaction.user, interaction.guild || null, reason || 'Kein Grund angegeben.')
+            .then(async (res) => {
+                if (res) {
+                    return interaction.reply({
+                        embeds: [res],
+                    })
+                } else {
 
-        // try to send a dm to the user
-        try {
-            // Send a message to the user
-            await member.send({
-                embeds: [embed],
+                    // try to send a dm to the user
+                    try {
+                        // Send a message to the user
+                        await member.send({
+                            embeds: [embed],
+                        })
+                    } catch (error) {
+                        console.error(error);
+                    }
+            
+            
+                    // kick the user
+                    await memberToKick.kick(reason || 'Kein Grund angegeben.')
+            
+            
+                    // Send the embed to the Audit Log Channel
+                    const auditLogChannel = client.channels.cache.get(keys.auditChannel) as TextChannel
+                    if (auditLogChannel) {
+                        await auditLogChannel.send({
+                            embeds: [audit],
+                        })
+                    }
+            
+            
+                    // Send the embed to the channel
+                    return interaction.reply({
+                        embeds: [audit],
+                    })
+                }
             })
-        } catch (error) {
-            console.error(error);
-        }
-
-
-        // kick the user
-        await memberToKick.kick(reason || 'Kein Grund angegeben.')
-
-
-        // Send the embed to the Audit Log Channel
-        const auditLogChannel = client.channels.cache.get(keys.auditChannel) as TextChannel
-        if (auditLogChannel) {
-            await auditLogChannel.send({
-                embeds: [audit],
+            .catch((err) => {
+                console.error(err);
+                return interaction.reply({
+                    ephemeral: true,
+                    content: 'Es ist ein Fehler mit der Datenbank aufgetreten. Bitte versuche es später erneut.',
+                })
             })
-        }
-
-
-        // Send the embed to the channel
-        return interaction.reply({
-            embeds: [audit],
-        })
 
     } catch (error) {
         console.error(error);
