@@ -1,13 +1,13 @@
 import { Event } from '../types'
 import ready from './ready'
 import interactionCreate from './interactionCreate'
-import antiSpam from './antiSpam'
+import autoMod from './autoMod'
 
 // This is the array of events
 const events: Event<any>[] = [
     ...interactionCreate,
+    ...autoMod,
     ready,
-    antiSpam
 ]
 
 export default events

@@ -1,6 +1,6 @@
 import { EmbedBuilder, Message, TextChannel, PermissionsBitField } from 'discord.js'
-import { event, db, infractionCheck } from '../utils'
-import keys from '../keys';
+import { event, db, infractionCheck } from '../../utils'
+import keys from '../../keys';
 
 // Create a map to store user cooldowns and spam count
 const cooldowns = new Map<string, { expiration: number; spamCount: number; spamDetectedCooldown: number }>();

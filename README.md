@@ -59,5 +59,7 @@
   - There are several commands available to warn, mute, timeout, kick or ban users.
   - Outputs all moderation activities in a specified channel, and...
   - Saves all moderation actions against a user, so that they can be retrieved again and again to check the user at a later time (if further moderation actions are needed).
+  - Automatically ban users who have been more than 3 infractions in the last 24 hours or 5 infractions in the last 7 days.
+  - Anti-Spam: Automatically timeout users who send too many messages in a short period of time.
   - ChatGPT checks if a rule break, when reported by another user, might actually exist.
 </section>
