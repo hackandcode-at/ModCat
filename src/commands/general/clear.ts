@@ -12,16 +12,23 @@ const meta = new SlashCommandBuilder()
             .setMinValue(1)
             .setRequired(false)
     )
+    .addMentionableOption((option) =>
+        option
+            .setName('member')
+            .setDescription('Benutzer, dessen Nachrichten gelöscht werden sollen.')
+            .setRequired(false)
+    )
 
 export default command(meta, async ({ interaction, client }) => {
     const count = interaction.options.getNumber('count')
+    const member = interaction.options.getUser('member')
     
     // Check if the user has the permission to delete messages
     if (!(interaction.member?.permissions instanceof PermissionsBitField) || 
         !interaction.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) {
         return interaction.reply({
             ephemeral: true,
-            content: 'Du hast nicht die erforderlichen Berechtigungen, um Benutzer zu verwarnen.',
+            content: 'Du hast nicht die erforderlichen Berechtigungen, um Nachrichten zu löschen.',
         });
     }
 
@@ -37,11 +44,19 @@ export default command(meta, async ({ interaction, client }) => {
 
     try {
 
-        const messages = await channel.messages.fetch({ limit: count });
+        let messages = null
+
+        if (member) {
+            messages = await channel.messages.fetch({ limit: count })
+            messages = messages.filter((message) => message.author.id === member.id)
+        } else {
+            messages = await channel.messages.fetch({ limit: count })
+        }
+
         await channel.bulkDelete(messages);
         interaction.reply({
             ephemeral: true,
-            content: `Ich habe erfolgreich ${count} Nachrichten gelöscht!`,
+            content: `Ich habe erfolgreich ${count} Nachrichten${member ? ` von ${member}` : ''} gelöscht!`,
         });
 
     } catch (error) {
