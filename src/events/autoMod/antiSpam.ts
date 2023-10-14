@@ -160,7 +160,7 @@ const detectedSpam = async (message: Message) => {
             }
         
             // Timeout the user for 90 seconds
-            // await message.member?.timeout( 90 * 1000, reason )
+            await message.member?.timeout( 90 * 1000, reason )
         
             // Send the embed to the Audit Log Channel
             const auditLogChannel = message.guild?.channels.cache.get(keys.auditChannel) as TextChannel
