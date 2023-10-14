@@ -1,15 +1,21 @@
-import { Client, GatewayIntentBits } from 'discord.js'
+import { Client, Partials, GatewayIntentBits } from 'discord.js'
 import { registerEvents } from '../utils'
 import events from '../events'
 import keys from '../keys'
 
 // Create a new client instance
 const client = new Client({
+    partials: [
+        Partials.Message,
+        Partials.Channel,
+        Partials.Reaction,
+    ],
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildModeration,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildPresences,
     ],
 })
 
