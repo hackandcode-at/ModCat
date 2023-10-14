@@ -24,7 +24,7 @@ export const infractionCheck = (member: User, mod: User, guild: Guild|null, reas
                 // Generate a random number for the infraction id between 10000 and 99999
                 const infractionId = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000)
 
-                reason = `Automatischer Ban wegen zu vieler Maßnahmen. (Ursprünglicher Grund: ${reason})`
+                reason = `Automatischer Bann wegen zu vieler Maßnahmen. (Ursprünglicher Grund: ${reason})`
 
                 // Insert the infraction into the database
                 db.run(`
