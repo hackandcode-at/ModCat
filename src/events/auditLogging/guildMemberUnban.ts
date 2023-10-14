@@ -28,7 +28,7 @@ export default event('guildMemberRemove', async ({ log }, member) => {
 
 
                 // Send the embed to the Audit Log Channel
-                const logChannel = member.guild?.channels.cache.get(keys.logChannel) as TextChannel
+                const logChannel = member.guild?.channels.cache.get(keys.auditChannel) as TextChannel
                 if (logChannel) {
                     if (entry.executor?.id === '738046714283294731') return // Debug Bot
                     if (entry.executor?.id === '990596222102405140') return // Production Bot
