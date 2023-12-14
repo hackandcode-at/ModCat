@@ -104,7 +104,7 @@ export default command(meta, async ({ interaction, client }) => {
                 console.error(err);
                 return interaction.reply({
                     ephemeral: true,
-                    content: 'Es ist ein Fehler mit der Datenbank aufgetreten. Bitte versuche es später erneut.',
+                    content: 'Es ist ein Fehler mit der Datenbank aufgetreten. Bitte versuche es später erneut. [db.run]',
                 })
             }
         })
@@ -197,7 +197,7 @@ export default command(meta, async ({ interaction, client }) => {
                 console.error(err);
                 return interaction.reply({
                     ephemeral: true,
-                    content: 'Es ist ein Fehler mit der Datenbank aufgetreten. Bitte versuche es später erneut.',
+                    content: 'Es ist ein Fehler mit der Datenbank aufgetreten. Bitte versuche es später erneut. [infractionCheck]',
                 })
             })
 
