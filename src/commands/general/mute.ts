@@ -41,6 +41,8 @@ export default command(meta, async ({ interaction, client }) => {
 
     try {
 
+        await interaction.deferReply()
+
         // Check if the user is muteable
         const memberToMute = await interaction.guild?.members.fetch(member.id)
         if (!memberToMute?.moderatable) {
@@ -118,6 +120,7 @@ export default command(meta, async ({ interaction, client }) => {
                     value: `${interaction.user}`,
                 },
             ])
+            .setFooter({ text: `Infraction-ID: ${infractionId}` })
             .setColor(0xfa8231)
             .setTimestamp()
 
@@ -136,6 +139,7 @@ export default command(meta, async ({ interaction, client }) => {
                     value: `${interaction.user}`,
                 },
             ])
+            .setFooter({ text: `Infraction-ID: ${infractionId}` })
             .setColor(0xfa8231)
             .setTimestamp()
 
@@ -144,7 +148,7 @@ export default command(meta, async ({ interaction, client }) => {
         await infractionCheck(member, interaction.user, interaction.guild || null, reason || 'Kein Grund angegeben.')
             .then(async (res) => {
                 if (res) {
-                    return interaction.reply({
+                    return interaction.editReply({
                         embeds: [res],
                     })
                 } else {
@@ -173,7 +177,7 @@ export default command(meta, async ({ interaction, client }) => {
             
             
                     // Send the embed to the channel
-                    return interaction.reply({
+                    return interaction.editReply({
                         embeds: [audit],
                     })
                 }

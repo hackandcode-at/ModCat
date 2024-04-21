@@ -48,6 +48,8 @@ export default command(meta, async ({ interaction, client }) => {
 
     try {
 
+        await interaction.deferReply()
+
         // Check if the user is bannable
         const memberToBan = await interaction.guild?.members.fetch(member.id)
         if (!memberToBan?.bannable) {
@@ -107,6 +109,7 @@ export default command(meta, async ({ interaction, client }) => {
                     value: `${interaction.user}`,
                 },
             ])
+            .setFooter({ text: `Infraction-ID: ${infractionId}` })
             .setColor(0xeb3b5a)
             .setTimestamp()
 
@@ -125,6 +128,7 @@ export default command(meta, async ({ interaction, client }) => {
                     value: `${interaction.user}`,
                 },
             ])
+            .setFooter({ text: `Infraction-ID: ${infractionId}` })
             .setColor(0xeb3b5a)
             .setTimestamp()
 
@@ -154,7 +158,7 @@ export default command(meta, async ({ interaction, client }) => {
 
 
         // Send the embed to the channel
-        return interaction.reply({
+        return interaction.editReply({
             embeds: [audit],
         })
 
